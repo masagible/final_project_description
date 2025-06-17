@@ -1,0 +1,16 @@
+<launch>
+  <!-- 啟動 Gazebo，載入餐廳場景 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find final_project_description)/worlds/restaurant.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+  </include>
+
+  <!-- 將 .xacro 轉成 robot_description 參數 -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find final_project_description)/urdf/final_project.xacro"/>
+
+  <!-- 將機器人模型 spawn 到 Gazebo 世界中 -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen"
+        args="-param robot_description -urdf -model final_project -x 0 -y 0 -z 0.3 -R 0 -P 0 -Y 0"/>
+</launch>
